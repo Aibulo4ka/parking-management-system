@@ -16,7 +16,7 @@ async def test_add_vehicle(client: AsyncClient, auth_headers):
         headers=auth_headers,
         json={
             "license_plate": "А123ВС777",
-            "make": "Toyota",
+            "brand": "Toyota",
             "model": "Camry",
             "color": "Белый",
             "vehicle_type": "sedan"
@@ -25,7 +25,7 @@ async def test_add_vehicle(client: AsyncClient, auth_headers):
     assert response.status_code == 201
     data = response.json()
     assert data["license_plate"] == "А123ВС777"
-    assert data["make"] == "Toyota"
+    assert data["brand"] == "Toyota"
     assert data["model"] == "Camry"
 
 
@@ -36,7 +36,7 @@ async def test_get_vehicles(client: AsyncClient, auth_headers, db_session: Async
     vehicle = Vehicle(
         customer_id=test_customer.customer_id,
         license_plate="Т456ЕС199",
-        make="BMW",
+        brand="BMW",
         model="X5",
         color="Черный",
         vehicle_type="suv"
@@ -58,7 +58,7 @@ async def test_delete_vehicle(client: AsyncClient, auth_headers, db_session: Asy
     vehicle = Vehicle(
         customer_id=test_customer.customer_id,
         license_plate="К789МН777",
-        make="Lada",
+        brand="Lada",
         model="Granta",
         color="Серый",
         vehicle_type="sedan"

@@ -12,6 +12,7 @@ from sqlalchemy.engine import Engine
 from app.main import app
 from app.db.database import Base, get_db
 from app.models.customer import Customer
+from app.models.vehicle import Vehicle
 from app.core.security import get_password_hash
 
 # Test database URL - использовать PostgreSQL как в проде
@@ -82,6 +83,23 @@ async def test_customer(db_session: AsyncSession):
     await db_session.commit()
     await db_session.refresh(customer)
     return customer
+
+
+@pytest.fixture
+async def test_vehicle(db_session: AsyncSession, test_customer: Customer):
+    """Create a test vehicle for the test customer"""
+    vehicle = Vehicle(
+        customer_id=test_customer.customer_id,
+        license_plate="Т123ЕС777",
+        brand="Toyota",
+        model="Camry",
+        color="Белый",
+        vehicle_type="sedan",
+    )
+    db_session.add(vehicle)
+    await db_session.commit()
+    await db_session.refresh(vehicle)
+    return vehicle
 
 
 @pytest.fixture
