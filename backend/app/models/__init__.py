@@ -7,6 +7,7 @@ from app.models.booking import Booking
 from app.models.parking_session import ParkingSession
 from app.models.payment import Payment
 from app.models.transaction import Transaction
+from app.models.telegram_link_token import TelegramLinkToken
 
 __all__ = [
     "Customer",
@@ -18,4 +19,5 @@ __all__ = [
     "ParkingSession",
     "Payment",
     "Transaction",
+    "TelegramLinkToken",
 ]

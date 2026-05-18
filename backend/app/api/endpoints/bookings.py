@@ -162,7 +162,11 @@ async def create_booking(
             detail="End time must be after start time"
         )
 
-    if booking_data.start_time < datetime.now(timezone.utc):
+    now = datetime.now(timezone.utc)
+    start = booking_data.start_time
+    if start.tzinfo is None:
+        start = start.replace(tzinfo=timezone.utc)
+    if start < now:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Start time must be in the future"
@@ -256,7 +260,8 @@ async def create_booking(
         zone_name=zone.name,
         spot_number=spot.spot_number,
         start_time=new_booking.start_time,
-        end_time=new_booking.end_time
+        end_time=new_booking.end_time,
+        telegram_chat_id=current_customer.telegram_chat_id,
     )
 
     return new_booking

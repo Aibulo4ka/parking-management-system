@@ -5,6 +5,16 @@ from typing import List
 from uuid import UUID
 from datetime import datetime, timezone, timedelta
 
+
+def _utc_now() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+def _as_utc(dt: datetime) -> datetime:
+    if dt is None:
+        return dt
+    return dt if dt.tzinfo is not None else dt.replace(tzinfo=timezone.utc)
+
 from app.db.database import get_db
 from app.models.customer import Customer
 from app.models.vehicle import Vehicle
@@ -41,7 +51,7 @@ async def calculate_session_cost(session: ParkingSession, db: AsyncSession) -> D
         return Decimal("0.00")
 
     # Calculate duration in minutes
-    duration = session.exit_time - session.entry_time
+    duration = _as_utc(session.exit_time) - _as_utc(session.entry_time)
     duration_minutes = int(duration.total_seconds() / 60)
 
     # Get spot and zone to find tariff
@@ -172,17 +182,19 @@ async def start_parking_session(
 
         # Check if booking time is valid (current time should be within booking period)
         # Allow starting 5 minutes before scheduled time
-        current_time = datetime.now(timezone.utc)
-        booking_start_with_buffer = booking.start_time - timedelta(minutes=5)
+        current_time = _utc_now()
+        booking_start = _as_utc(booking.start_time)
+        booking_end = _as_utc(booking.end_time)
+        booking_start_with_buffer = booking_start - timedelta(minutes=5)
 
         if current_time < booking_start_with_buffer:
-            minutes_until_start = int((booking.start_time - current_time).total_seconds() / 60)
+            minutes_until_start = int((booking_start - current_time).total_seconds() / 60)
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=f"Слишком рано! Можно начать парковку за 5 минут до времени бронирования. Осталось ждать: {minutes_until_start} мин"
             )
 
-        if current_time > booking.end_time:
+        if current_time > booking_end:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Время бронирования уже истекло"
@@ -209,7 +221,7 @@ async def start_parking_session(
     session_dict = session_data.model_dump()
     # Auto-set entry_time to current time if not provided
     if not session_dict.get('entry_time'):
-        session_dict['entry_time'] = datetime.now(timezone.utc)
+        session_dict['entry_time'] = _utc_now()
 
     new_session = ParkingSession(
         **session_dict,
@@ -238,7 +250,8 @@ async def start_parking_session(
         zone_name=zone.name if zone else "Unknown",
         spot_number=spot.spot_number,
         vehicle_plate=vehicle.license_plate,
-        entry_time=new_session.entry_time
+        entry_time=new_session.entry_time,
+        telegram_chat_id=current_customer.telegram_chat_id,
     )
 
     return new_session
@@ -403,7 +416,7 @@ async def end_parking_session(
         exit_time = exit_time.replace(tzinfo=timezone.utc)
 
     # Validate exit time
-    if exit_time < session.entry_time:
+    if exit_time < _as_utc(session.entry_time):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Exit time must be after entry time"
@@ -414,7 +427,7 @@ async def end_parking_session(
     session.status = "completed"
 
     # Calculate duration in minutes
-    duration = session.exit_time - session.entry_time
+    duration = _as_utc(session.exit_time) - _as_utc(session.entry_time)
     session.duration_minutes = int(duration.total_seconds() / 60)
 
     # Calculate cost
@@ -564,7 +577,8 @@ async def end_parking_session(
             entry_time=session.entry_time,
             exit_time=session.exit_time,
             duration_minutes=session.duration_minutes,
-            total_cost=float(session.total_cost)
+            total_cost=float(session.total_cost),
+            telegram_chat_id=current_customer.telegram_chat_id,
         )
 
     return session
@@ -608,19 +622,19 @@ async def calculate_current_cost(
         vehicle_id=session.vehicle_id,
         spot_id=session.spot_id,
         entry_time=session.entry_time,
-        exit_time=datetime.now(timezone.utc),
+        exit_time=_utc_now(),
         booking_id=session.booking_id,
         status=session.status
     )
 
     cost = await calculate_session_cost(temp_session, db)
-    duration = datetime.now(timezone.utc) - session.entry_time
+    duration = _utc_now() - _as_utc(session.entry_time)
     duration_minutes = int(duration.total_seconds() / 60)
 
     return {
         "session_id": session_id,
         "entry_time": session.entry_time,
-        "current_time": datetime.now(timezone.utc),
+        "current_time": _utc_now(),
         "duration_minutes": duration_minutes,
         "estimated_cost": float(cost),
         "status": session.status
@@ -741,7 +755,7 @@ async def get_monthly_statistics(
         return {"months": [], "sessions_count": [], "total_cost": [], "total_hours": []}
 
     # Calculate date range
-    end_date = datetime.now(timezone.utc)
+    end_date = _utc_now().replace(tzinfo=None)
     start_date = end_date - timedelta(days=months * 30)
 
     # Get all completed sessions in range

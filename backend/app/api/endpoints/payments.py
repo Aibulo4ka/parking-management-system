@@ -348,7 +348,8 @@ async def update_payment_status(
             payment_id=str(payment.payment_id),
             amount=float(payment.amount),
             payment_method=payment.payment_method,
-            transaction_id=payment.transaction_id
+            transaction_id=payment.transaction_id,
+            telegram_chat_id=current_customer.telegram_chat_id,
         )
 
     return payment

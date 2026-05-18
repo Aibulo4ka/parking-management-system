@@ -18,6 +18,12 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api"
 
+    # Telegram bot settings
+    TELEGRAM_BOT_TOKEN: Optional[str] = None
+    TELEGRAM_BOT_USERNAME: Optional[str] = None
+    TELEGRAM_POLL_ENABLED: bool = False
+    TELEGRAM_LINK_TOKEN_TTL_MINUTES: int = 10
+
     class Config:
         env_file = ".env"
         case_sensitive = True
