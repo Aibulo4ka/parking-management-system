@@ -2,7 +2,7 @@
 Notification Service
 Handles email and Telegram notifications for parking events.
 """
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from html import escape
 from typing import Optional
 import logging
@@ -15,9 +15,14 @@ from app.services.telegram_service import (
 
 logger = logging.getLogger(__name__)
 
+# Все уведомления рендерим в московском времени (UTC+3, без DST с 2014).
+MSK = timezone(timedelta(hours=3))
+
 
 def _fmt_dt(value: datetime) -> str:
-    return value.strftime("%d.%m.%Y %H:%M")
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=timezone.utc)
+    return value.astimezone(MSK).strftime("%d.%m.%Y %H:%M")
 
 
 class NotificationService:

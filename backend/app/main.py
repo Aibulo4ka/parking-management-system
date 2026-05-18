@@ -11,6 +11,7 @@ from app.core.exceptions import (
     generic_exception_handler
 )
 from app.services.telegram_polling import polling_worker, should_start_polling
+from app.services.reminder_worker import reminder_worker, should_start_reminder_worker
 
 logging.basicConfig(
     level=logging.INFO,
@@ -22,9 +23,12 @@ logging.basicConfig(
 async def lifespan(app: FastAPI):
     if should_start_polling():
         polling_worker.start()
+    if should_start_reminder_worker():
+        reminder_worker.start()
     try:
         yield
     finally:
+        await reminder_worker.stop()
         await polling_worker.stop()
 
 

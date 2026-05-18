@@ -24,6 +24,11 @@ class Settings(BaseSettings):
     TELEGRAM_POLL_ENABLED: bool = False
     TELEGRAM_LINK_TOKEN_TTL_MINUTES: int = 10
 
+    # Booking reminder worker
+    REMINDER_ENABLED: bool = False
+    REMINDER_LEAD_MINUTES: int = 30
+    REMINDER_POLL_INTERVAL_SECONDS: int = 60
+
     class Config:
         env_file = ".env"
         case_sensitive = True

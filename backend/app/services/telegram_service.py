@@ -4,6 +4,7 @@ Telegram Bot API client.
 Тонкая async-обёртка над https://api.telegram.org/bot{TOKEN}/{method}.
 Используется и для отправки уведомлений, и для long-polling воркера.
 """
+import asyncio
 from typing import Any, Optional
 import logging
 
@@ -15,6 +16,10 @@ logger = logging.getLogger(__name__)
 
 TELEGRAM_API_BASE = "https://api.telegram.org"
 
+# Сеть до Telegram бывает flaky: иногда первый коннект таймаутит, а второй проходит за 100мс.
+SEND_RETRY_DELAYS = (0.5, 1.5)  # 3 попытки итого
+SEND_TIMEOUT_SECONDS = 8.0  # короткий timeout, чтобы быстро ретраить
+
 
 class TelegramServiceError(Exception):
     """Любая ошибка взаимодействия с Telegram Bot API."""
@@ -23,7 +28,7 @@ class TelegramServiceError(Exception):
 class TelegramService:
     """Минимальный клиент Telegram Bot API."""
 
-    def __init__(self, token: Optional[str] = None, request_timeout: float = 10.0):
+    def __init__(self, token: Optional[str] = None, request_timeout: float = 30.0):
         self.token = token or settings.TELEGRAM_BOT_TOKEN
         self.request_timeout = request_timeout
 
@@ -47,7 +52,9 @@ class TelegramService:
             async with httpx.AsyncClient(timeout=timeout or self.request_timeout) as client:
                 response = await client.post(self._url(method), json=payload or {})
         except httpx.HTTPError as exc:
-            raise TelegramServiceError(f"HTTP error calling {method}: {exc}") from exc
+            raise TelegramServiceError(
+                f"HTTP error calling {method}: {type(exc).__name__}({exc!r})"
+            ) from exc
 
         try:
             data = response.json()
@@ -69,7 +76,7 @@ class TelegramService:
         parse_mode: Optional[str] = "HTML",
         disable_web_page_preview: bool = True,
     ) -> dict[str, Any]:
-        """Отправить сообщение в чат. Возвращает result из ответа Telegram."""
+        """Отправить сообщение в чат с ретраями на сетевые ошибки."""
         payload: dict[str, Any] = {
             "chat_id": chat_id,
             "text": text,
@@ -77,8 +84,22 @@ class TelegramService:
         }
         if parse_mode:
             payload["parse_mode"] = parse_mode
-        data = await self._call("sendMessage", payload)
-        return data.get("result", {})
+
+        last_error: Optional[TelegramServiceError] = None
+        for attempt, delay in enumerate((0.0,) + SEND_RETRY_DELAYS):
+            if delay:
+                await asyncio.sleep(delay)
+            try:
+                data = await self._call("sendMessage", payload, timeout=SEND_TIMEOUT_SECONDS)
+                if attempt > 0:
+                    logger.info("sendMessage succeeded on attempt %d", attempt + 1)
+                return data.get("result", {})
+            except TelegramServiceError as exc:
+                last_error = exc
+                logger.warning("sendMessage attempt %d failed: %s", attempt + 1, exc)
+
+        assert last_error is not None
+        raise last_error
 
     async def get_updates(
         self,

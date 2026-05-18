@@ -19,6 +19,7 @@ class Booking(Base):
     end_time = Column(DateTime(timezone=True), nullable=False)
     estimated_cost = Column(Numeric(10, 2), nullable=False, default=0.00)
     status = Column(String(50), nullable=False, default="pending", index=True)  # pending, confirmed, cancelled, completed
+    reminder_sent_at = Column(DateTime(timezone=True), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
