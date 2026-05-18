@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 import authService from '../services/authService';
+import TelegramLinkSection from '../components/TelegramLinkSection';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -212,6 +213,9 @@ const ProfilePage = () => {
             </Grid>
           </form>
         </Paper>
+
+        {/* Telegram */}
+        <TelegramLinkSection />
 
         {/* Change Password */}
         <Paper elevation={2} sx={{ p: 3 }}>
