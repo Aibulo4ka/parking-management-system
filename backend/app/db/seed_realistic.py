@@ -1,11 +1,16 @@
 """
-Скрипт для заполнения БД реалистичными тестовыми данными
-- Пользователи (15-20)
-- Транспортные средства (25-30)
-- Бронирования за последние 3 недели (с разной заполненностью)
-- Платежи и парковочные сессии (завершённые и активные)
+Скрипт для заполнения БД реалистичными тестовыми данными.
+
+Параметры (через переменные окружения):
+- SEED_USERS         — сколько юзеров создавать (по умолчанию 30; админ и Амира поверх).
+- SEED_DAYS_PAST     — на сколько дней назад делать брони (по умолчанию 7).
+- SEED_DAYS_FUTURE   — на сколько дней вперёд делать брони (по умолчанию 7).
+
+Запуск:
+    docker exec parking_backend python -m app.db.seed_realistic
 """
 import asyncio
+import os
 import uuid
 import random
 from datetime import datetime, timedelta
@@ -33,7 +38,7 @@ FIRST_NAMES = [
 ]
 
 LAST_NAMES = [
-    "Иванов", "Петров", "Сидоров", "Козлов", "Новikov",
+    "Иванов", "Петров", "Сидоров", "Козлов", "Новиков",
     "Морозов", "Волков", "Соколов", "Лебедев", "Семенов",
     "Егоров", "Павлов", "Кузнецов", "Михайлов", "Федоров",
     "Смирнов", "Васильев", "Попов", "Соловьев", "Николаев"
@@ -227,9 +232,16 @@ async def create_vehicles(db: AsyncSession, customers: list):
     return vehicles
 
 
-async def create_bookings_and_payments(db: AsyncSession, vehicles: list, zones: list, spots: list):
-    """Создание бронирований и платежей: 3 недели назад + 1 неделя вперёд"""
-    print("\n📅 Создание бронирований (3 недели назад + 1 неделя вперёд)...")
+async def create_bookings_and_payments(
+    db: AsyncSession,
+    vehicles: list,
+    zones: list,
+    spots: list,
+    days_past: int,
+    days_future: int,
+):
+    """Создание бронирований и платежей в окне [now - days_past, now + days_future]."""
+    print(f"\n📅 Создание бронирований ({days_past} дн. назад + {days_future} дн. вперёд)...")
 
     total_spots = len(spots)
     now = datetime.utcnow()
@@ -254,20 +266,19 @@ async def create_bookings_and_payments(db: AsyncSession, vehicles: list, zones: 
     bookings = []
     payments = []
 
-    # Бронирования: от -20 дней (прошлое) до +7 дней (будущее)
-    for day_offset in range(-20, 8):  # -20 to 7 (20 дней назад до 7 дней вперёд)
+    # Бронирования: от -days_past до +days_future
+    for day_offset in range(-days_past, days_future + 1):
         day_date = now + timedelta(days=day_offset)
 
-        # Определяем заполненность:
-        # - Прошлое (первые 1.5 недели): 75%
-        # - Прошлое (остальное): 45%
-        # - Будущее (неделя вперёд): 55%
-        if day_offset < -9:  # дни от -20 до -10
-            occupancy_rate = 0.75
-        elif day_offset <= 0:  # дни от -9 до 0
-            occupancy_rate = 0.45
-        else:  # дни от 1 до 7 (будущее)
-            occupancy_rate = 0.55
+        # Заполненность: прошлое — выше (история активной парковки),
+        # сегодня — около половины (естественная неполнота),
+        # будущее — растёт по мере приближения (юзеры бронируют заранее).
+        if day_offset < 0:
+            occupancy_rate = 0.55 + min(abs(day_offset), 7) * 0.025  # 0.575..0.725
+        elif day_offset == 0:
+            occupancy_rate = 0.50
+        else:
+            occupancy_rate = max(0.30, 0.60 - day_offset * 0.04)     # 0.56..0.32
 
         bookings_today = int(total_spots * occupancy_rate)
 
@@ -338,12 +349,7 @@ async def create_bookings_and_payments(db: AsyncSession, vehicles: list, zones: 
                     db.add(payment)
                     payments.append(payment)
 
-        # Статистика каждые 7 дней
-        if (day_offset + 21) % 7 == 0:
-            week_num = (day_offset + 21) // 7
-            week_start = now + timedelta(days=max(day_offset-6, -20))
-            week_bookings = len([b for b in bookings if b.start_time.date() >= week_start.date() and b.start_time.date() <= day_date.date()])
-            print(f"  📊 Неделя {week_num}: создано {week_bookings} бронирований")
+        print(f"  день {day_offset:+d} ({day_date.date()}): {len(selected_spots)} бронирований (заполненность {occupancy_rate:.0%})")
 
     await db.commit()
 
@@ -424,8 +430,15 @@ async def create_parking_sessions(db: AsyncSession, bookings: list, spots: list)
 
 
 async def seed_realistic_data():
-    """Главная функция для заполнения БД реалистичными данными за последние 3 недели"""
-    print("🌱 Начинаем заполнение БД реалистичными данными за последние 3 недели...\n")
+    """Главная функция заполнения БД. Параметры берутся из env (см. модуль docstring)."""
+    users = int(os.getenv("SEED_USERS", "30"))
+    days_past = int(os.getenv("SEED_DAYS_PAST", "7"))
+    days_future = int(os.getenv("SEED_DAYS_FUTURE", "7"))
+
+    print(
+        f"🌱 Seed: users={users}, окно [-{days_past}…+{days_future}] дн. "
+        f"от {datetime.utcnow().date()}\n"
+    )
 
     async with AsyncSessionLocal() as db:
         try:
@@ -446,13 +459,16 @@ async def seed_realistic_data():
                 return
 
             # 3. Создаем пользователей
-            customers = await create_customers(db, count=18)
+            customers = await create_customers(db, count=users)
 
             # 4. Создаем транспортные средства
             vehicles = await create_vehicles(db, customers)
 
             # 5. Создаем бронирования и платежи
-            bookings, payments = await create_bookings_and_payments(db, vehicles, zones, spots)
+            bookings, payments = await create_bookings_and_payments(
+                db, vehicles, zones, spots,
+                days_past=days_past, days_future=days_future,
+            )
 
             # 6. Создаем активные парковочные сессии и обновляем занятость мест
             sessions = await create_parking_sessions(db, bookings, spots)
