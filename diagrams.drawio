@@ -1,0 +1,370 @@
+<mxfile host="app.diagrams.net" agent="manual" version="24.7.17">
+  <diagram name="Рис. 1. BPMN — Привязка TG" id="diag1">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title1" value="Рисунок 1. Процесс «Привязка Telegram-аккаунта»" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="200" y="20" width="1200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_c" value="Клиент" style="swimlane;horizontal=0;startSize=80;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1480" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_s" value="АИС управления парковкой" style="swimlane;horizontal=0;startSize=80;fillColor=#eeeeee;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="190" width="1480" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="lane_t" value="Telegram Bot API" style="swimlane;horizontal=0;startSize=80;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="370" width="1480" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="140" y="100" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="t1" value="Нажать&#xa;«Подключить Telegram»" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="220" y="90" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" value="Сгенерировать&#xa;одноразовый токен" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="420" y="250" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" value="Показать ссылку&#xa;t.me/&lt;Bot&gt;?start=&lt;TOK&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="620" y="90" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t4" value="Открыть ссылку&#xa;в Telegram" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="820" y="90" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t5" value="Доставить&#xa;команду /start &lt;TOK&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="820" y="410" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t6" value="Принять апдейт&#xa;(long polling)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="250" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" value="Токен&#xa;валиден?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="245" width="100" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="t7" value="Связать chat_id,&#xa;пометить токен использованным" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="220" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t8" value="Сообщить об ошибке&#xa;(истёк/использован)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="300" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t9" value="Доставить ответ&#xa;«✅ Готово»" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="1360" y="410" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="240" y="420" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ed1" style="endArrow=classic;html=1;" edge="1" parent="1" source="s1" target="t1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed2" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t1" target="t2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed3" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="t2" target="t3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed4" style="endArrow=classic;html=1;" edge="1" parent="1" source="t3" target="t4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed5" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t4" target="t5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed6" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" edge="1" parent="1" source="t5" target="t6"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed7" style="endArrow=classic;html=1;" edge="1" parent="1" source="t6" target="g1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed8" value="да" style="endArrow=classic;html=1;exitX=1;exitY=0.25;" edge="1" parent="1" source="g1" target="t7"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed9" value="нет" style="endArrow=classic;html=1;exitX=1;exitY=0.75;" edge="1" parent="1" source="g1" target="t8"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed10" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t7" target="t9"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed11" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" edge="1" parent="1" source="t9" target="e1"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Рис. 2. BPMN — Уведомление" id="diag2">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title2" value="Рисунок 2. Процесс «Уведомление о бизнес-событии»" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="200" y="20" width="1000" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="lane2_a" value="API endpoint" style="swimlane;horizontal=0;startSize=80;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1320" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="lane2_s" value="notification_service" style="swimlane;horizontal=0;startSize=80;fillColor=#eeeeee;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="190" width="1320" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="lane2_c" value="telegram_service / Bot API" style="swimlane;horizontal=0;startSize=80;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="320" width="1320" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="140" y="100" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_1" value="Бизнес-событие&#xa;(booking/session/payment)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="220" y="90" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_2" value="db.commit()&#xa;транзакция зафиксирована" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="420" y="90" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_3" value="Вызов send_*()&#xa;с telegram_chat_id" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="620" y="90" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_4" value="Сформировать HTML-текст,&#xa;форматировать дату в MSK" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="620" y="220" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" value="chat_id&#xa;есть?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="830" y="225" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_5" value="POST sendMessage&#xa;(до 3 попыток)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="980" y="360" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g3" value="ОК?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="1190" y="370" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e2_ok" value="Доставлено" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="350" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e2_log" value="В лог" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="420" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="e2_skip" value="Пропущено&#xa;(email-only)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="960" y="225" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ed2_1" style="endArrow=classic;html=1;" edge="1" parent="1" source="s2" target="t2_1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed2_2" style="endArrow=classic;html=1;" edge="1" parent="1" source="t2_1" target="t2_2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed2_3" style="endArrow=classic;html=1;" edge="1" parent="1" source="t2_2" target="t2_3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed2_4" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="t2_3" target="t2_4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed2_5" style="endArrow=classic;html=1;" edge="1" parent="1" source="t2_4" target="g2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed2_6" value="нет" style="endArrow=classic;html=1;" edge="1" parent="1" source="g2" target="e2_skip"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed2_7" value="да" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="g2" target="t2_5"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed2_8" style="endArrow=classic;html=1;" edge="1" parent="1" source="t2_5" target="g3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed2_9" value="да" style="endArrow=classic;html=1;" edge="1" parent="1" source="g3" target="e2_ok"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed2_10" value="нет" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" edge="1" parent="1" source="g3" target="e2_log"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Рис. 3. BPMN — Напоминание" id="diag3">
+    <mxGraphModel dx="1200" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title3" value="Рисунок 3. Процесс «Напоминание о предстоящей брони»" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="150" y="20" width="900" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" value="Таймер 60 с" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="80" y="200" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_1" value="SELECT бронирования:&#xa;status IN (pending, confirmed)&#xa;AND reminder_sent_at IS NULL&#xa;AND start_time BETWEEN now()&#xa;  AND now() + 30 минут&#xa;AND telegram_chat_id IS NOT NULL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="220" y="170" width="280" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="db3" value="bookings" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="290" y="380" width="100" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="g4" value="Есть&#xa;найденные?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="560" y="215" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_2" value="Для каждой брони:&#xa;send_booking_reminder()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="740" y="120" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_3" value="UPDATE bookings&#xa;SET reminder_sent_at = now()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="740" y="220" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_4" value="commit транзакции" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="740" y="320" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="Ждать&#xa;следующий тик" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;strokeWidth=3;" vertex="1" parent="1">
+          <mxGeometry x="990" y="220" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="ed3_1" style="endArrow=classic;html=1;" edge="1" parent="1" source="s3" target="t3_1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed3_2" style="endArrow=classic;html=1;dashed=1;" edge="1" parent="1" source="t3_1" target="db3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed3_3" style="endArrow=classic;html=1;" edge="1" parent="1" source="t3_1" target="g4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed3_4" value="да" style="endArrow=classic;html=1;exitX=1;exitY=0.25;" edge="1" parent="1" source="g4" target="t3_2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed3_5" value="нет" style="endArrow=classic;html=1;exitX=1;exitY=0.75;entryX=0;entryY=0.5;" edge="1" parent="1" source="g4" target="e3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed3_6" style="endArrow=classic;html=1;" edge="1" parent="1" source="t3_2" target="t3_3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed3_7" style="endArrow=classic;html=1;" edge="1" parent="1" source="t3_3" target="t3_4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed3_8" style="endArrow=classic;html=1;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" edge="1" parent="1" source="t3_4" target="e3"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Рис. 4. Архитектура" id="diag4">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title4" value="Рисунок 4. Структурная схема интеграционного решения" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="200" y="20" width="1000" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fe" value="React-фронтенд&#xa;(карточка «Подключить Telegram»&#xa;в личном кабинете)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="100" width="260" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="be_box" value="FastAPI backend" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;fontStyle=1;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="240" width="780" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="ep" value="endpoints/&#xa;telegram.py&#xa;&#xa;POST /link-token&#xa;GET /status&#xa;DELETE /link" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="120" y="290" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ns" value="services/&#xa;notification_service.py&#xa;&#xa;send_booking_confirmation&#xa;send_session_started&#xa;send_session_ended&#xa;send_payment_confirmation&#xa;send_booking_reminder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="370" y="290" width="220" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="pw" value="services/&#xa;telegram_polling.py&#xa;&#xa;Long-polling worker:&#xa;обработка /start &lt;TOK&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="120" y="450" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="rw" value="services/&#xa;reminder_worker.py&#xa;&#xa;Планировщик 60 с:&#xa;напоминания за 30 мин" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="290" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ts" value="services/telegram_service.py&#xa;&#xa;HTTP-клиент Bot API&#xa;sendMessage / getUpdates / getMe&#xa;ретраи + бэкофф" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;spacingLeft=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="600" width="380" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="db" value="PostgreSQL&#xa;&#xa;customers&#xa;telegram_link_tokens&#xa;bookings" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#e1d5e7;strokeColor=#9673a6;align=center;" vertex="1" parent="1">
+          <mxGeometry x="960" y="290" width="200" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="tg" value="api.telegram.org&#xa;Bot API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="600" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="usr" value="Telegram-юзер" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1230" y="600" width="50" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ed4_1" value="REST/JSON" style="endArrow=classic;html=1;" edge="1" parent="1" source="fe" target="ep"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed4_2" value="" style="endArrow=classic;html=1;" edge="1" parent="1" source="ep" target="db"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed4_3" value="" style="endArrow=classic;html=1;" edge="1" parent="1" source="ns" target="ts"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed4_4" value="" style="endArrow=classic;html=1;" edge="1" parent="1" source="pw" target="ts"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed4_5" value="" style="endArrow=classic;html=1;" edge="1" parent="1" source="rw" target="ns"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed4_6" value="" style="endArrow=classic;html=1;" edge="1" parent="1" source="rw" target="db"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed4_7" value="" style="endArrow=classic;html=1;" edge="1" parent="1" source="pw" target="db"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed4_8" value="HTTPS / JSON" style="endArrow=classic;html=1;" edge="1" parent="1" source="ts" target="tg"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ed4_9" value="" style="endArrow=classic;html=1;startArrow=classic;startFill=1;" edge="1" parent="1" source="tg" target="usr"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="legend4" value="Условные обозначения:&#xa;— оранжевая рамка: точка обращения к внешнему API (изолирована в один модуль)&#xa;— фиолетовый цилиндр: реляционная СУБД PostgreSQL&#xa;— красный блок: внешняя ИС (Telegram Bot API)" style="text;html=1;align=left;verticalAlign=top;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="120" y="780" width="800" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="Рис. 5. ERD" id="diag5">
+    <mxGraphModel dx="1200" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title5" value="Рисунок 5. Фрагмент ER-диаграммы (изменения, внесённые интеграцией)" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="100" y="20" width="1000" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust" value="customers" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fontSize=14;fillColor=none;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="100" width="320" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="cust">
+          <mxGeometry y="30" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r1c1" value="PK" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontStyle=4;fontSize=12;" vertex="1" parent="cust_r1">
+          <mxGeometry width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r1c2" value="customer_id (UUID)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;" vertex="1" parent="cust_r1">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="cust">
+          <mxGeometry y="60" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r2c2" value="email (VARCHAR UNIQUE)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;" vertex="1" parent="cust_r2">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="cust">
+          <mxGeometry y="90" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r3c2" value="password_hash (VARCHAR)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;" vertex="1" parent="cust_r3">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="cust">
+          <mxGeometry y="120" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r4c2" value="balance (NUMERIC)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;" vertex="1" parent="cust_r4">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r5" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#d5e8d4;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="cust">
+          <mxGeometry y="150" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r5c2" value="telegram_chat_id (VARCHAR NULL)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;fontStyle=1;" vertex="1" parent="cust_r5">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r6" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="cust">
+          <mxGeometry y="180" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="cust_r6c2" value="created_at, updated_at" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;fontStyle=2;" vertex="1" parent="cust_r6">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt" value="telegram_link_tokens" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fontSize=14;fillColor=none;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="100" width="380" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#d5e8d4;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="tlt">
+          <mxGeometry y="30" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r1c1" value="PK" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontStyle=5;fontSize=12;" vertex="1" parent="tlt_r1">
+          <mxGeometry width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r1c2" value="token (VARCHAR)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;fontStyle=1;" vertex="1" parent="tlt_r1">
+          <mxGeometry x="60" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#d5e8d4;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="tlt">
+          <mxGeometry y="60" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r2c1" value="FK" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontStyle=4;fontSize=12;" vertex="1" parent="tlt_r2">
+          <mxGeometry width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r2c2" value="customer_id (UUID)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;" vertex="1" parent="tlt_r2">
+          <mxGeometry x="60" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#d5e8d4;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="tlt">
+          <mxGeometry y="90" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r3c2" value="expires_at (TIMESTAMP TZ)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;" vertex="1" parent="tlt_r3">
+          <mxGeometry x="60" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#d5e8d4;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="tlt">
+          <mxGeometry y="120" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r4c2" value="used (BOOLEAN)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;" vertex="1" parent="tlt_r4">
+          <mxGeometry x="60" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r5" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#d5e8d4;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="tlt">
+          <mxGeometry y="150" width="380" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tlt_r5c2" value="created_at (TIMESTAMP TZ)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;fontStyle=2;" vertex="1" parent="tlt_r5">
+          <mxGeometry x="60" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book" value="bookings" style="shape=table;startSize=30;container=1;collapsible=0;childLayout=tableLayout;fontSize=14;fillColor=none;strokeColor=#666666;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="430" width="320" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r1" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="book">
+          <mxGeometry y="30" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r1c1" value="PK" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontStyle=4;fontSize=12;" vertex="1" parent="book_r1">
+          <mxGeometry width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r1c2" value="booking_id (UUID)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;" vertex="1" parent="book_r1">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="book">
+          <mxGeometry y="60" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r2c1" value="FK" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontStyle=4;fontSize=12;" vertex="1" parent="book_r2">
+          <mxGeometry width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r2c2" value="customer_id (UUID)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;" vertex="1" parent="book_r2">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r3" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="book">
+          <mxGeometry y="90" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r3c2" value="start_time, end_time (TIMESTAMP)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;" vertex="1" parent="book_r3">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r4" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="book">
+          <mxGeometry y="120" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r4c2" value="status (VARCHAR)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;" vertex="1" parent="book_r4">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r5" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=#d5e8d4;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="book">
+          <mxGeometry y="150" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r5c2" value="reminder_sent_at (TIMESTAMP NULL)" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;fontStyle=1;" vertex="1" parent="book_r5">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r6" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;strokeColor=inherit;top=0;left=0;bottom=0;right=0;collapsible=0;dropTarget=0;fillColor=none;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;" vertex="1" parent="book">
+          <mxGeometry y="180" width="320" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="book_r6c2" value="created_at, updated_at" style="shape=partialRectangle;html=1;whiteSpace=wrap;connectable=0;strokeColor=inherit;overflow=hidden;fillColor=none;top=0;left=0;bottom=0;right=0;pointerEvents=1;fontSize=12;align=left;spacingLeft=4;fontStyle=2;" vertex="1" parent="book_r6">
+          <mxGeometry x="60" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="rel1" value="1 : N" style="endArrow=ERmany;startArrow=ERone;html=1;fontSize=12;" edge="1" parent="1" source="cust" target="tlt"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="rel2" value="1 : N" style="endArrow=ERmany;startArrow=ERone;html=1;fontSize=12;" edge="1" parent="1" source="cust" target="book"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="legend5" value="Зелёным цветом выделены поля и таблицы, добавленные в рамках интеграции:&#xa;— customers.telegram_chat_id — связь с Telegram-аккаунтом клиента;&#xa;— telegram_link_tokens — целиком новая таблица одноразовых токенов привязки;&#xa;— bookings.reminder_sent_at — отметка факта отправки напоминания (идемпотентность)." style="text;html=1;align=left;verticalAlign=top;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="560" y="430" width="500" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
