@@ -59,29 +59,37 @@ class TelegramPollingWorker:
         logger.info("Telegram polling worker stopped")
 
     async def _run(self) -> None:
-        try:
-            me = await self.service.get_me()
-            logger.info(
-                "Telegram bot connected: @%s (id=%s)",
-                me.get("username"),
-                me.get("id"),
-            )
-        except TelegramServiceError as exc:
-            logger.error("Cannot reach Telegram (bot token invalid?): %s", exc)
-            return
+        # Ретраим get_me с бэкоффом: сеть до api.telegram.org бывает flaky,
+        # и раньше воркер навсегда умирал при первой ошибке на старте.
+        while not self._stopping.is_set():
+            try:
+                me = await self.service.get_me()
+                logger.info(
+                    "Telegram bot connected: @%s (id=%s)",
+                    me.get("username"),
+                    me.get("id"),
+                )
+                break
+            except TelegramServiceError as exc:
+                logger.error(
+                    "Cannot reach Telegram, retry in %ds: %s",
+                    ERROR_BACKOFF_SECONDS,
+                    exc,
+                )
+                await self._sleep_or_stop(ERROR_BACKOFF_SECONDS)
 
         while not self._stopping.is_set():
             try:
                 updates = await self.service.get_updates(offset=self._offset, timeout=25)
             except TelegramServiceError as exc:
                 logger.error("getUpdates failed: %s", exc)
-                await asyncio.sleep(ERROR_BACKOFF_SECONDS)
+                await self._sleep_or_stop(ERROR_BACKOFF_SECONDS)
                 continue
             except asyncio.CancelledError:
                 raise
             except Exception as exc:  # noqa: BLE001
                 logger.exception("Unexpected error in polling loop: %s", exc)
-                await asyncio.sleep(ERROR_BACKOFF_SECONDS)
+                await self._sleep_or_stop(ERROR_BACKOFF_SECONDS)
                 continue
 
             for update in updates:
@@ -90,6 +98,13 @@ class TelegramPollingWorker:
                     await self._handle_update(update)
                 except Exception as exc:  # noqa: BLE001
                     logger.exception("Failed to handle update %s: %s", update.get("update_id"), exc)
+
+    async def _sleep_or_stop(self, seconds: float) -> None:
+        """Сон с моментальным выходом по _stopping (для отзывчивого shutdown)."""
+        try:
+            await asyncio.wait_for(self._stopping.wait(), timeout=seconds)
+        except asyncio.TimeoutError:
+            pass
 
     async def _handle_update(self, update: dict[str, Any]) -> None:
         message = update.get("message") or update.get("edited_message")
